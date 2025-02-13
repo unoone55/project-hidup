@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Game</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #ffffff;
+            background-image: linear-gradient(45deg, #D8BFD8 25%, transparent 25%, transparent 75%, #D8BFD8 75%, #D8BFD8),
+                              linear-gradient(45deg, #D8BFD8 25%, transparent 25%, transparent 75%, #D8BFD8 75%, #D8BFD8);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            color: #6B3E26;
+            position: relative;
+            overflow: hidden;
+        }
+        h1 {
+            color: #6B3E26;
+            text-shadow: -3px -3px 0 white, 3px -3px 0 white, -3px 3px 0 white, 3px 3px 0 white;
+            padding: 10px 20px;
+            display: block;
+            font-size: 28px;
+        }
+        p {
+            color: #6B3E26;
+            text-shadow: -2px -2px 0 white, 2px -2px 0 white, -2px 2px 0 white, 2px 2px 0 white;
+            font-weight: bold;
+            font-size: 20px;
+            padding: 10px 20px;
+            display: block;
+        }
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+            padding: 20px;
+            border: 5px dashed #DDA0DD;
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        button {
+            margin: 10px;
+            padding: 12px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #FFB6C1;
+            border: 3px solid #DDA0DD;
+            border-radius: 20px;
+            box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease-in-out;
+        }
+        button:hover {
+            transform: scale(1.1);
+        }
+        .puzzle-preview {
+            margin-top: 20px;
+        }
+        .puzzle-preview img {
+            width: 300px;
+            border-radius: 10px;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <h1>💖 Selamat Hari Valentine, Dino! 💖</h1>
+    <p><strong>Nih pilih game yang amu mauu mainin:</strong></p>
+    <div class="game-container">
+        <button onclick="startPuzzle()">🧩 Potongan Puzzle</button>
+        <button onclick="startSudoku()">🔢 Sudoku</button>
+    </div>
+    <div class="puzzle-preview">
+        <p>🖼️ Ini gambar yang akan dijadikan puzzle:</p>
+        <img id="puzzleImage" src="your-photo.jpg" alt="Foto kamu dan pasangan">
+    </div>
+    <script>
+        function startPuzzle() {
+            localStorage.setItem('puzzleImage', document.getElementById('puzzleImage').src);
+            window.location.href = "puzzle.html";
+        }
+        function startSudoku() {
+            window.location.href = "sudoku.html";
+        }
+    </script>
+</body>
+</html>

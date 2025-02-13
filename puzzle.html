@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puzzle Game</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #fff0f5;
+        }
+        .puzzle-container {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 2px;
+            width: 306px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 3px;
+            border-radius: 10px;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+        }
+        .piece {
+            width: 100px;
+            height: 100px;
+            background-size: 300px 300px;
+            cursor: grab;
+        }
+        .reward-image {
+            display: none;
+            margin-top: 20px;
+            width: 200px;
+        }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="goBack()">&#8592;</button>
+    <h1>Puzzle Game</h1>
+    <div class="puzzle-container" id="puzzleContainer"></div>
+    <img src="rewardpuzzle.png" alt="Reward" class="reward-image" id="rewardImage">
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        const puzzleContainer = document.getElementById("puzzleContainer");
+        const rewardImage = document.getElementById("rewardImage");
+        const puzzleImage = localStorage.getItem('puzzleImage') || 'your-photo.jpg';
+        
+        let pieces = [];
+        for (let i = 0; i < 9; i++) {
+            const piece = document.createElement("div");
+            piece.classList.add("piece");
+            piece.style.backgroundImage = `url(${puzzleImage})`;
+            piece.style.backgroundPosition = `-${(i % 3) * 100}px -${Math.floor(i / 3) * 100}px`;
+            piece.draggable = true;
+            piece.dataset.index = i;
+            pieces.push(piece);
+        }
+        
+        pieces.sort(() => Math.random() - 0.5);
+        pieces.forEach(piece => puzzleContainer.appendChild(piece));
+        
+        let draggedPiece = null;
+        
+        pieces.forEach(piece => {
+            piece.addEventListener("dragstart", (e) => {
+                draggedPiece = piece;
+            });
+            piece.addEventListener("dragover", (e) => {
+                e.preventDefault();
+            });
+            piece.addEventListener("drop", (e) => {
+                if (draggedPiece !== piece) {
+                    let tempIndex = draggedPiece.dataset.index;
+                    draggedPiece.dataset.index = piece.dataset.index;
+                    piece.dataset.index = tempIndex;
+                    
+                    let tempStyle = draggedPiece.style.backgroundPosition;
+                    draggedPiece.style.backgroundPosition = piece.style.backgroundPosition;
+                    piece.style.backgroundPosition = tempStyle;
+                    
+                    checkWin();
+                }
+            });
+        });
+
+        function checkWin() {
+            let isWin = pieces.every((piece, index) => parseInt(piece.dataset.index) === index);
+            if (isWin) {
+                rewardImage.style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>
